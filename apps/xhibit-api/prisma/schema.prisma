@@ -1,0 +1,72 @@
+datasource mongo {
+  provider = "mongodb"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  categories    Category[]       @relation(fields: [categoriesIds], references: [id])
+  categoriesIds String[]         @mongo.ObjectId
+  createdAt     DateTime         @default(now())
+  firstName     String?
+  id            String           @id @default(auto()) @map("_id") @mongo.ObjectId
+  lastName      String?
+  password      String
+  profile       Profile?         @relation(fields: [profileId], references: [id])
+  profileId     String?
+  project       Project[]        @relation(fields: [projectIds], references: [id])
+  projectIds    String[]         @mongo.ObjectId
+  roles         Json
+  updatedAt     DateTime         @updatedAt
+  username      String           @unique
+  userType      EnumUserUserType
+}
+
+model Category {
+  createdAt   DateTime @default(now())
+  description String?
+  icon        String?
+  id          String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  name        String?
+  updatedAt   DateTime @updatedAt
+  user        User[]   @relation(fields: [userIds], references: [id])
+  userIds     String[] @mongo.ObjectId
+}
+
+model Profile {
+  aboutProfile                      String?
+  createdAt                         DateTime @default(now())
+  gender                            String?
+  id                                String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  profile_category_details          Json?
+  profile_educational_qualification Json?
+  profile_image_url                 String?
+  updatedAt                         DateTime @updatedAt
+  user_Address                      Json?
+  users                             User[]
+  user_social_profiles              Json?
+}
+
+model Project {
+  allow_negotiation Boolean?
+  createdAt         DateTime @default(now())
+  description       String
+  icon              String?
+  id                String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  images            Json
+  mark_for_sale     Boolean?
+  name              String
+  price             Float?
+  slug              String
+  updatedAt         DateTime @updatedAt
+  users             User[]   @relation(fields: [usersIds], references: [id])
+  usersIds          String[] @mongo.ObjectId
+}
+
+enum EnumUserUserType {
+  Recruiter
+  Talent
+}
