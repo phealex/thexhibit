@@ -1,0 +1,446 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input BooleanNullableFilter {
+  equals: Boolean
+  not: Boolean
+}
+
+type Category {
+  createdAt: DateTime!
+  description: String
+  icon: String
+  id: String!
+  name: String
+  updatedAt: DateTime!
+  user(orderBy: [UserOrderByInput!], skip: Float, take: Float, where: UserWhereInput): [User!]!
+}
+
+input CategoryCreateInput {
+  description: String
+  icon: String
+  name: String
+  user: UserCreateNestedManyWithoutCategoriesInput
+}
+
+input CategoryCreateNestedManyWithoutUsersInput {
+  connect: [CategoryWhereUniqueInput!]
+}
+
+input CategoryListRelationFilter {
+  every: CategoryWhereInput
+  none: CategoryWhereInput
+  some: CategoryWhereInput
+}
+
+input CategoryOrderByInput {
+  createdAt: SortOrder
+  description: SortOrder
+  icon: SortOrder
+  id: SortOrder
+  name: SortOrder
+  updatedAt: SortOrder
+}
+
+input CategoryUpdateInput {
+  description: String
+  icon: String
+  name: String
+  user: UserUpdateManyWithoutCategoriesInput
+}
+
+input CategoryUpdateManyWithoutUsersInput {
+  connect: [CategoryWhereUniqueInput!]
+  disconnect: [CategoryWhereUniqueInput!]
+  set: [CategoryWhereUniqueInput!]
+}
+
+input CategoryWhereInput {
+  description: StringNullableFilter
+  icon: StringNullableFilter
+  id: StringFilter
+  name: StringNullableFilter
+  user: UserListRelationFilter
+}
+
+input CategoryWhereUniqueInput {
+  id: String!
+}
+
+input Credentials {
+  password: String!
+  username: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum EnumUserUserType {
+  Recruiter
+  Talent
+}
+
+input FloatNullableFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: Float
+  notIn: [Float!]
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+input JsonFilter {
+  equals: JSONObject
+  not: JSONObject
+}
+
+type MetaQueryPayload {
+  count: Float!
+}
+
+type Mutation {
+  createCategory(data: CategoryCreateInput!): Category!
+  createProfile(data: ProfileCreateInput!): Profile!
+  createProject(data: ProjectCreateInput!): Project!
+  createUser(data: UserCreateInput!): User!
+  deleteCategory(where: CategoryWhereUniqueInput!): Category!
+  deleteProfile(where: ProfileWhereUniqueInput!): Profile!
+  deleteProject(where: ProjectWhereUniqueInput!): Project!
+  deleteUser(where: UserWhereUniqueInput!): User!
+  login(credentials: Credentials!): UserInfo!
+  updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category!
+  updateProfile(data: ProfileUpdateInput!, where: ProfileWhereUniqueInput!): Profile!
+  updateProject(data: ProjectUpdateInput!, where: ProjectWhereUniqueInput!): Project!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+}
+
+type Profile {
+  aboutProfile: String
+  createdAt: DateTime!
+  gender: String
+  id: String!
+  profile_category_details: JSON
+  profile_educational_qualification: JSON
+  profile_image_url: String
+  updatedAt: DateTime!
+  user_Address: JSON
+  user_social_profiles: JSON
+  users(orderBy: [UserOrderByInput!], skip: Float, take: Float, where: UserWhereInput): [User!]!
+}
+
+input ProfileCreateInput {
+  aboutProfile: String
+  gender: String
+  profile_category_details: JSON
+  profile_educational_qualification: JSON
+  profile_image_url: String
+  user_Address: JSON
+  user_social_profiles: JSON
+  users: UserCreateNestedManyWithoutProfilesInput
+}
+
+input ProfileOrderByInput {
+  aboutProfile: SortOrder
+  createdAt: SortOrder
+  gender: SortOrder
+  id: SortOrder
+  profile_category_details: SortOrder
+  profile_educational_qualification: SortOrder
+  profile_image_url: SortOrder
+  updatedAt: SortOrder
+  user_Address: SortOrder
+  user_social_profiles: SortOrder
+}
+
+input ProfileUpdateInput {
+  aboutProfile: String
+  gender: String
+  profile_category_details: JSON
+  profile_educational_qualification: JSON
+  profile_image_url: String
+  user_Address: JSON
+  user_social_profiles: JSON
+  users: UserUpdateManyWithoutProfilesInput
+}
+
+input ProfileWhereInput {
+  aboutProfile: StringNullableFilter
+  gender: StringNullableFilter
+  id: StringFilter
+  profile_category_details: JsonFilter
+  profile_educational_qualification: JsonFilter
+  profile_image_url: StringNullableFilter
+  user_Address: JsonFilter
+  user_social_profiles: JsonFilter
+  users: UserListRelationFilter
+}
+
+input ProfileWhereUniqueInput {
+  id: String!
+}
+
+type Project {
+  allow_negotiation: Boolean
+  createdAt: DateTime!
+  description: String!
+  icon: String
+  id: String!
+  images: JSON!
+  mark_for_sale: Boolean
+  name: String!
+  price: Float
+  slug: String!
+  updatedAt: DateTime!
+  users(orderBy: [UserOrderByInput!], skip: Float, take: Float, where: UserWhereInput): [User!]!
+}
+
+input ProjectCreateInput {
+  allow_negotiation: Boolean
+  description: String!
+  icon: String
+  images: JSON!
+  mark_for_sale: Boolean
+  name: String!
+  price: Float
+  slug: String!
+  users: UserCreateNestedManyWithoutProjectsInput
+}
+
+input ProjectCreateNestedManyWithoutUsersInput {
+  connect: [ProjectWhereUniqueInput!]
+}
+
+input ProjectListRelationFilter {
+  every: ProjectWhereInput
+  none: ProjectWhereInput
+  some: ProjectWhereInput
+}
+
+input ProjectOrderByInput {
+  allow_negotiation: SortOrder
+  createdAt: SortOrder
+  description: SortOrder
+  icon: SortOrder
+  id: SortOrder
+  images: SortOrder
+  mark_for_sale: SortOrder
+  name: SortOrder
+  price: SortOrder
+  slug: SortOrder
+  updatedAt: SortOrder
+}
+
+input ProjectUpdateInput {
+  allow_negotiation: Boolean
+  description: String
+  icon: String
+  images: JSON
+  mark_for_sale: Boolean
+  name: String
+  price: Float
+  slug: String
+  users: UserUpdateManyWithoutProjectsInput
+}
+
+input ProjectUpdateManyWithoutUsersInput {
+  connect: [ProjectWhereUniqueInput!]
+  disconnect: [ProjectWhereUniqueInput!]
+  set: [ProjectWhereUniqueInput!]
+}
+
+input ProjectWhereInput {
+  allow_negotiation: BooleanNullableFilter
+  description: StringFilter
+  icon: StringNullableFilter
+  id: StringFilter
+  images: JsonFilter
+  mark_for_sale: BooleanNullableFilter
+  name: StringFilter
+  price: FloatNullableFilter
+  slug: StringFilter
+  users: UserListRelationFilter
+}
+
+input ProjectWhereUniqueInput {
+  id: String!
+}
+
+type Query {
+  _categoriesMeta(where: CategoryWhereInput): MetaQueryPayload!
+  _profilesMeta(where: ProfileWhereInput): MetaQueryPayload!
+  _projectsMeta(where: ProjectWhereInput): MetaQueryPayload!
+  _usersMeta(where: UserWhereInput): MetaQueryPayload!
+  categories(orderBy: [CategoryOrderByInput!], skip: Float, take: Float, where: CategoryWhereInput): [Category!]!
+  category(where: CategoryWhereUniqueInput!): Category
+  profile(where: ProfileWhereUniqueInput!): Profile
+  profiles(orderBy: [ProfileOrderByInput!], skip: Float, take: Float, where: ProfileWhereInput): [Profile!]!
+  project(where: ProjectWhereUniqueInput!): Project
+  projects(orderBy: [ProjectOrderByInput!], skip: Float, take: Float, where: ProjectWhereInput): [Project!]!
+  user(where: UserWhereUniqueInput!): User
+  userInfo: UserInfo!
+  users(orderBy: [UserOrderByInput!], skip: Float, take: Float, where: UserWhereInput): [User!]!
+}
+
+enum QueryMode {
+  Default
+  Insensitive
+}
+
+enum SortOrder {
+  Asc
+  Desc
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: String
+  notIn: [String!]
+  startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: String
+  notIn: [String!]
+  startsWith: String
+}
+
+type User {
+  categories(orderBy: [CategoryOrderByInput!], skip: Float, take: Float, where: CategoryWhereInput): [Category!]!
+  createdAt: DateTime!
+  firstName: String
+  id: String!
+  lastName: String
+  profile: Profile
+  project(orderBy: [ProjectOrderByInput!], skip: Float, take: Float, where: ProjectWhereInput): [Project!]!
+  roles: JSON!
+  updatedAt: DateTime!
+  userType: EnumUserUserType
+  username: String!
+}
+
+input UserCreateInput {
+  categories: CategoryCreateNestedManyWithoutUsersInput
+  firstName: String
+  lastName: String
+  password: String!
+  profile: ProfileWhereUniqueInput
+  project: ProjectCreateNestedManyWithoutUsersInput
+  roles: JSON!
+  userType: EnumUserUserType!
+  username: String!
+}
+
+input UserCreateNestedManyWithoutCategoriesInput {
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateNestedManyWithoutProfilesInput {
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateNestedManyWithoutProjectsInput {
+  connect: [UserWhereUniqueInput!]
+}
+
+type UserInfo {
+  accessToken: String
+  id: String!
+  roles: [String!]!
+  username: String!
+}
+
+input UserListRelationFilter {
+  every: UserWhereInput
+  none: UserWhereInput
+  some: UserWhereInput
+}
+
+input UserOrderByInput {
+  createdAt: SortOrder
+  firstName: SortOrder
+  id: SortOrder
+  lastName: SortOrder
+  password: SortOrder
+  profileId: SortOrder
+  roles: SortOrder
+  updatedAt: SortOrder
+  userType: SortOrder
+  username: SortOrder
+}
+
+input UserUpdateInput {
+  categories: CategoryUpdateManyWithoutUsersInput
+  firstName: String
+  lastName: String
+  password: String
+  profile: ProfileWhereUniqueInput
+  project: ProjectUpdateManyWithoutUsersInput
+  roles: JSON
+  userType: EnumUserUserType
+  username: String
+}
+
+input UserUpdateManyWithoutCategoriesInput {
+  connect: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+}
+
+input UserUpdateManyWithoutProfilesInput {
+  connect: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+}
+
+input UserUpdateManyWithoutProjectsInput {
+  connect: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+}
+
+input UserWhereInput {
+  categories: CategoryListRelationFilter
+  firstName: StringNullableFilter
+  id: StringFilter
+  lastName: StringNullableFilter
+  profile: ProfileWhereUniqueInput
+  project: ProjectListRelationFilter
+  userType: EnumUserUserType
+  username: StringFilter
+}
+
+input UserWhereUniqueInput {
+  id: String!
+}
