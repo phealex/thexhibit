@@ -8,7 +8,7 @@ export class SecretsManagerServiceBase implements ISecretsManager {
   constructor(protected readonly configService: ConfigService) {}
   async getSecret<T>(key: string): Promise<T | null> {
     if (!key) {
-      throw new Error("Didn't got the key");
+      throw new Error("Didn't get the key");
     }
     const value = this.configService.get(key);
     if (value) {

@@ -21,7 +21,7 @@ model User {
   projectIds    String[]         @mongo.ObjectId
   roles         Json
   updatedAt     DateTime         @updatedAt
-  username      String           @unique
+  email         String           @unique
   userType      EnumUserUserType
 }
 

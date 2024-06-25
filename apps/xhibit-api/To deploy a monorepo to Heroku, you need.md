@@ -36,6 +36,10 @@ web: cd apps/backend && npm start
 ```
 heroku config:set PROCFILE=Procfile.frontend -a myapp-frontend
 heroku config:set PROCFILE=Procfile.backend -a myapp-backend
+
+heroku config:set -a <client-app-name> PROCFILE=apps/client/Procfile
+heroku config:set -a <server-app-name> PROCFILE=apps/backend/Procfile
+
 ```
 
 5. Deploy each app separately using the `git push heroku master` command:
