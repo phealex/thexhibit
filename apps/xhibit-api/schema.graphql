@@ -69,8 +69,8 @@ input CategoryWhereUniqueInput {
 }
 
 input Credentials {
+  email: String!
   password: String!
-  username: String!
 }
 
 """
@@ -123,6 +123,7 @@ type Mutation {
   deleteProject(where: ProjectWhereUniqueInput!): Project!
   deleteUser(where: UserWhereUniqueInput!): User!
   login(credentials: Credentials!): UserInfo!
+  register(credentials: Register!): UserInfo!
   updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category!
   updateProfile(data: ProfileUpdateInput!, where: ProfileWhereUniqueInput!): Profile!
   updateProject(data: ProjectUpdateInput!, where: ProjectWhereUniqueInput!): Project!
@@ -301,6 +302,14 @@ enum QueryMode {
   Insensitive
 }
 
+input Register {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  userType: EnumUserUserType!
+}
+
 enum SortOrder {
   Asc
   Desc
@@ -339,6 +348,7 @@ input StringNullableFilter {
 type User {
   categories(orderBy: [CategoryOrderByInput!], skip: Float, take: Float, where: CategoryWhereInput): [Category!]!
   createdAt: DateTime!
+  email: String!
   firstName: String
   id: String!
   lastName: String
@@ -347,11 +357,11 @@ type User {
   roles: JSON!
   updatedAt: DateTime!
   userType: EnumUserUserType
-  username: String!
 }
 
 input UserCreateInput {
   categories: CategoryCreateNestedManyWithoutUsersInput
+  email: String!
   firstName: String
   lastName: String
   password: String!
@@ -359,7 +369,6 @@ input UserCreateInput {
   project: ProjectCreateNestedManyWithoutUsersInput
   roles: JSON!
   userType: EnumUserUserType!
-  username: String!
 }
 
 input UserCreateNestedManyWithoutCategoriesInput {
@@ -376,9 +385,9 @@ input UserCreateNestedManyWithoutProjectsInput {
 
 type UserInfo {
   accessToken: String
+  email: String!
   id: String!
-  roles: [String!]!
-  username: String!
+  roles: JSON!
 }
 
 input UserListRelationFilter {
@@ -389,6 +398,7 @@ input UserListRelationFilter {
 
 input UserOrderByInput {
   createdAt: SortOrder
+  email: SortOrder
   firstName: SortOrder
   id: SortOrder
   lastName: SortOrder
@@ -397,11 +407,11 @@ input UserOrderByInput {
   roles: SortOrder
   updatedAt: SortOrder
   userType: SortOrder
-  username: SortOrder
 }
 
 input UserUpdateInput {
   categories: CategoryUpdateManyWithoutUsersInput
+  email: String
   firstName: String
   lastName: String
   password: String
@@ -409,7 +419,6 @@ input UserUpdateInput {
   project: ProjectUpdateManyWithoutUsersInput
   roles: JSON
   userType: EnumUserUserType
-  username: String
 }
 
 input UserUpdateManyWithoutCategoriesInput {
@@ -432,13 +441,13 @@ input UserUpdateManyWithoutProjectsInput {
 
 input UserWhereInput {
   categories: CategoryListRelationFilter
+  email: StringFilter
   firstName: StringNullableFilter
   id: StringFilter
   lastName: StringNullableFilter
   profile: ProfileWhereUniqueInput
   project: ProjectListRelationFilter
   userType: EnumUserUserType
-  username: StringFilter
 }
 
 input UserWhereUniqueInput {
