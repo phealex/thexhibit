@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { InputType, Field, Int } from "@nestjs/graphql";
 import { IsString, IsEnum, IsInt } from "class-validator";
-import { EnumUserUserType } from "src/user/base/EnumUserUserType";
+import { EnumUserUserType } from "../user/base/EnumUserUserType";
 
 @InputType()
 export class Credentials {
@@ -62,7 +62,7 @@ export class Register {
   })
   @IsEnum(EnumUserUserType)
   @Field(() => EnumUserUserType, { nullable: false })
-  userType!: "Recruiter" | "Talent";
+  userType!: EnumUserUserType;
 
   @ApiProperty({
     required: true,
