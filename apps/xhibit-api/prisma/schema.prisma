@@ -23,6 +23,7 @@ model User {
   updatedAt     DateTime         @updatedAt
   email         String           @unique
   userType      EnumUserUserType
+  talent        Talent?
 }
 
 model Category {
@@ -64,6 +65,15 @@ model Project {
   updatedAt         DateTime @updatedAt
   users             User[]   @relation(fields: [usersIds], references: [id])
   usersIds          String[] @mongo.ObjectId
+}
+
+model Talent {
+  id                String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  userId            String   @unique @mongo.ObjectId
+  user              User     @relation(fields: [userId], references: [id])
+  yearsOfExperience Int?
+  skills            String[]
+  discipline        String?
 }
 
 enum EnumUserUserType {
