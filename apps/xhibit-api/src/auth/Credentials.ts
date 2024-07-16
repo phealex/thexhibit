@@ -81,7 +81,7 @@ export class Register {
   experience!: number;
 
   @ApiProperty({
-    required: true,
+    required: false,
     type: String,
   })
   @IsString()
@@ -89,12 +89,18 @@ export class Register {
   discipline?: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
     type: String,
   })
   @IsString()
   @Field(() => String, { nullable: true })
   employmentType?: string;
 
-
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @Field(() => String, { nullable: false })
+  phone!: string;
 }

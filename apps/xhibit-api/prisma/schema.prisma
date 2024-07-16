@@ -24,6 +24,7 @@ model User {
   userType      EnumUserUserType
   talent        Talent?
   Recruiter     Recruiter?
+  phone         String?
 }
 
 model Category {

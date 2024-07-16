@@ -115,7 +115,6 @@ type MetaQueryPayload {
 
 type Mutation {
   createCategory(data: CategoryCreateInput!): Category!
-  createProfile(data: ProfileCreateInput!): Profile!
   createProject(data: ProjectCreateInput!): Project!
   createUser(data: UserCreateInput!): User!
   deleteCategory(where: CategoryWhereUniqueInput!): Category!
@@ -139,20 +138,9 @@ type Profile {
   profile_educational_qualification: JSON
   profile_image_url: String
   updatedAt: DateTime!
+  user(orderBy: [UserOrderByInput!], skip: Float, take: Float, where: UserWhereInput): User!
   user_Address: JSON
   user_social_profiles: JSON
-  users(orderBy: [UserOrderByInput!], skip: Float, take: Float, where: UserWhereInput): [User!]!
-}
-
-input ProfileCreateInput {
-  aboutProfile: String
-  gender: String
-  profile_category_details: JSON
-  profile_educational_qualification: JSON
-  profile_image_url: String
-  user_Address: JSON
-  user_social_profiles: JSON
-  users: UserCreateNestedManyWithoutProfilesInput
 }
 
 input ProfileOrderByInput {
@@ -303,10 +291,15 @@ enum QueryMode {
 }
 
 input Register {
+  discipline: String
   email: String!
+  employmentType: String
+  experience: Int!
   firstName: String!
   lastName: String!
   password: String!
+  phone: String!
+  skills: [String!]!
   userType: EnumUserUserType!
 }
 
@@ -365,6 +358,7 @@ input UserCreateInput {
   firstName: String
   lastName: String
   password: String!
+  phone: String!
   profile: ProfileWhereUniqueInput
   project: ProjectCreateNestedManyWithoutUsersInput
   roles: JSON!
@@ -372,10 +366,6 @@ input UserCreateInput {
 }
 
 input UserCreateNestedManyWithoutCategoriesInput {
-  connect: [UserWhereUniqueInput!]
-}
-
-input UserCreateNestedManyWithoutProfilesInput {
   connect: [UserWhereUniqueInput!]
 }
 

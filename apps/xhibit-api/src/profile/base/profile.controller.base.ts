@@ -1,4 +1,4 @@
- 
+
 import * as common from "@nestjs/common";
 import * as swagger from "@nestjs/swagger";
 import { isRecordNotFoundError } from "../../prisma.util";
@@ -27,7 +27,7 @@ export class ProfileControllerBase {
   constructor(
     protected readonly service: ProfileService,
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
-  ) {}
+  ) { }
   @common.UseInterceptors(AclValidateRequestInterceptor)
   @common.Post()
   @swagger.ApiCreatedResponse({ type: Profile })
@@ -42,7 +42,7 @@ export class ProfileControllerBase {
   @swagger.ApiBody({
     type: ProfileCreateInput,
   })
-  async create(@common.Body() data: ProfileCreateInput): Promise<Profile> {
+  async create(@common.Body() data: any): Promise<Profile> {
     return await this.service.create({
       data: data,
       select: {
@@ -165,7 +165,7 @@ export class ProfileControllerBase {
           user_social_profiles: true,
         },
       });
-    } catch (error) {
+    } catch (error: any) {
       if (isRecordNotFoundError(error)) {
         throw new errors.NotFoundException(
           `No resource was found for ${JSON.stringify(params)}`
@@ -205,7 +205,7 @@ export class ProfileControllerBase {
           user_social_profiles: true,
         },
       });
-    } catch (error) {
+    } catch (error: any) {
       if (isRecordNotFoundError(error)) {
         throw new errors.NotFoundException(
           `No resource was found for ${JSON.stringify(params)}`
@@ -226,28 +226,9 @@ export class ProfileControllerBase {
   async findManyUsers(
     @common.Req() request: Request,
     @common.Param() params: ProfileWhereUniqueInput
-  ): Promise<User[]> {
+  ): Promise<User> {
     const query = plainToClass(UserFindManyArgs, request.query);
-    const results = await this.service.findUsers(params.id, {
-      ...query,
-      select: {
-        createdAt: true,
-        firstName: true,
-        id: true,
-        lastName: true,
-
-        profile: {
-          select: {
-            id: true,
-          },
-        },
-
-        roles: true,
-        updatedAt: true,
-        email: true,
-        userType: true,
-      },
-    });
+    const results = await this.service.findUsers(params.id);
     if (results === null) {
       throw new errors.NotFoundException(
         `No resource was found for ${JSON.stringify(params)}`
@@ -264,10 +245,10 @@ export class ProfileControllerBase {
   })
   async connectUsers(
     @common.Param() params: ProfileWhereUniqueInput,
-    @common.Body() body: UserWhereUniqueInput[]
+    @common.Body() body: UserWhereUniqueInput
   ): Promise<void> {
     const data = {
-      users: {
+      user: {
         connect: body,
       },
     };
@@ -278,47 +259,47 @@ export class ProfileControllerBase {
     });
   }
 
-  @common.Patch("/:id/users")
-  @nestAccessControl.UseRoles({
-    resource: "Profile",
-    action: "update",
-    possession: "any",
-  })
-  async updateUsers(
-    @common.Param() params: ProfileWhereUniqueInput,
-    @common.Body() body: UserWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      users: {
-        set: body,
-      },
-    };
-    await this.service.update({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Delete("/:id/users")
-  @nestAccessControl.UseRoles({
-    resource: "Profile",
-    action: "update",
-    possession: "any",
-  })
-  async disconnectUsers(
-    @common.Param() params: ProfileWhereUniqueInput,
-    @common.Body() body: UserWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      users: {
-        disconnect: body,
-      },
-    };
-    await this.service.update({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
+  // @common.Patch("/:id/users")
+  // @nestAccessControl.UseRoles({
+  //   resource: "Profile",
+  //   action: "update",
+  //   possession: "any",
+  // })
+  // async updateUsers(
+  //   @common.Param() params: ProfileWhereUniqueInput,
+  //   @common.Body() body: any
+  // ): Promise<void> {
+  //   const data = {
+  //     user: {
+  //       set: body,
+  //     },
+  //   };
+  //   await this.service.update({
+  //     where: params,
+  //     data,
+  //     select: { id: true },
+  //   });
+  // }
+  //
+  // @common.Delete("/:id/users")
+  // @nestAccessControl.UseRoles({
+  //   resource: "Profile",
+  //   action: "update",
+  //   possession: "any",
+  // })
+  // async disconnectUsers(
+  //   @common.Param() params: ProfileWhereUniqueInput,
+  //   @common.Body() body: any
+  // ): Promise<void> {
+  //   const data = {
+  //     user: {
+  //       disconnect: body,
+  //     },
+  //   };
+  //   await this.service.update({
+  //     where: params,
+  //     data,
+  //     select: { id: true },
+  //   });
+  // }
 }

@@ -1,4 +1,4 @@
- 
+
 import * as graphql from "@nestjs/graphql";
 import * as apollo from "apollo-server-express";
 import { isRecordNotFoundError } from "../../prisma.util";
@@ -25,7 +25,7 @@ export class ProfileResolverBase {
   constructor(
     protected readonly service: ProfileService,
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
-  ) {}
+  ) { }
 
   @graphql.Query(() => MetaQueryPayload)
   @nestAccessControl.UseRoles({
@@ -72,21 +72,21 @@ export class ProfileResolverBase {
     return result;
   }
 
-  @common.UseInterceptors(AclValidateRequestInterceptor)
-  @graphql.Mutation(() => Profile)
-  @nestAccessControl.UseRoles({
-    resource: "Profile",
-    action: "create",
-    possession: "any",
-  })
-  async createProfile(
-    @graphql.Args() args: CreateProfileArgs
-  ): Promise<Profile> {
-    return await this.service.create({
-      ...args,
-      data: args.data,
-    });
-  }
+  // @common.UseInterceptors(AclValidateRequestInterceptor)
+  // @graphql.Mutation(() => Profile)
+  // @nestAccessControl.UseRoles({
+  //   resource: "Profile",
+  //   action: "create",
+  //   possession: "any",
+  // })
+  // async createProfile(
+  //   @graphql.Args() args: CreateProfileArgs
+  // ): Promise<Profile> {
+  //   return await this.service.create({
+  //     ...args,
+  //     data: args.data,
+  //   });
+  // }
 
   @common.UseInterceptors(AclValidateRequestInterceptor)
   @graphql.Mutation(() => Profile)
@@ -103,7 +103,7 @@ export class ProfileResolverBase {
         ...args,
         data: args.data,
       });
-    } catch (error) {
+    } catch (error: any) {
       if (isRecordNotFoundError(error)) {
         throw new apollo.ApolloError(
           `No resource was found for ${JSON.stringify(args.where)}`
@@ -124,7 +124,7 @@ export class ProfileResolverBase {
   ): Promise<Profile | null> {
     try {
       return await this.service.delete(args);
-    } catch (error) {
+    } catch (error: any) {
       if (isRecordNotFoundError(error)) {
         throw new apollo.ApolloError(
           `No resource was found for ${JSON.stringify(args.where)}`
@@ -135,7 +135,7 @@ export class ProfileResolverBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => [User], { name: "users" })
+  @graphql.ResolveField(() => User, { name: "user" })
   @nestAccessControl.UseRoles({
     resource: "User",
     action: "read",
@@ -144,11 +144,11 @@ export class ProfileResolverBase {
   async resolveFieldUsers(
     @graphql.Parent() parent: Profile,
     @graphql.Args() args: UserFindManyArgs
-  ): Promise<User[]> {
-    const results = await this.service.findUsers(parent.id, args);
+  ): Promise<User | null> {
+    const results = await this.service.findUsers(parent.id);
 
     if (!results) {
-      return [];
+      return null;
     }
 
     return results;

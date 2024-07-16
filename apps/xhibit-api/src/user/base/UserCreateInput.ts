@@ -1,4 +1,4 @@
- 
+
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { CategoryCreateNestedManyWithoutUsersInput } from "./CategoryCreateNestedManyWithoutUsersInput";
@@ -101,6 +101,15 @@ class UserCreateInput {
   @IsEnum(EnumUserUserType)
   @Field(() => EnumUserUserType)
   userType!: "Recruiter" | "Talent";
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @Field(() => String, { nullable: false })
+  phone!: string;
+
 }
 
 export { UserCreateInput as UserCreateInput };

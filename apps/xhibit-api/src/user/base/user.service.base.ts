@@ -1,35 +1,39 @@
- 
+
 import { PrismaService } from "../../prisma/prisma.service";
 import { Prisma, User, Category, Project, Profile } from "@prisma/client";
 import { PasswordService } from "../../auth/password.service";
 import { transformStringFieldUpdateInput } from "../../prisma.util";
+import { EnumUserUserType } from "./EnumUserUserType";
 
 export class UserServiceBase {
   constructor(
     protected readonly prisma: PrismaService,
     protected readonly passwordService: PasswordService
-  ) {}
+  ) { }
 
   async count<T extends Prisma.UserCountArgs>(
     args: Prisma.SelectSubset<T, Prisma.UserCountArgs>
   ): Promise<number> {
-    return this.prisma.user.count(args);
+    const count = await this.prisma.user.count(args);
+    return count as number
   }
 
   async findMany<T extends Prisma.UserFindManyArgs>(
     args: Prisma.SelectSubset<T, Prisma.UserFindManyArgs>
   ): Promise<User[]> {
-    return this.prisma.user.findMany(args);
+    const user = await this.prisma.user.findMany(args);
+    return user as User[]
   }
   async findOne<T extends Prisma.UserFindUniqueArgs>(
     args: Prisma.SelectSubset<T, Prisma.UserFindUniqueArgs>
   ): Promise<User | null> {
-    return this.prisma.user.findUnique(args);
+    const user = await this.prisma.user.findUnique(args);
+    return user as User
   }
   async create<T extends Prisma.UserCreateArgs>(
     args: Prisma.SelectSubset<T, Prisma.UserCreateArgs>
   ): Promise<User> {
-    return this.prisma.user.create<T>({
+    const user = await this.prisma.user.create<T>({
       ...args,
 
       data: {
@@ -37,6 +41,7 @@ export class UserServiceBase {
         password: await this.passwordService.hash(args.data.password),
       },
     });
+    return user
   }
   async update<T extends Prisma.UserUpdateArgs>(
     args: Prisma.SelectSubset<T, Prisma.UserUpdateArgs>

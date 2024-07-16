@@ -1,4 +1,4 @@
- 
+
 import * as graphql from "@nestjs/graphql";
 import * as apollo from "apollo-server-express";
 import { isRecordNotFoundError } from "../../prisma.util";
@@ -28,7 +28,7 @@ export class UserResolverBase {
   constructor(
     protected readonly service: UserService,
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
-  ) {}
+  ) { }
 
   @graphql.Query(() => MetaQueryPayload)
   @nestAccessControl.UseRoles({
@@ -86,8 +86,8 @@ export class UserResolverBase {
 
         profile: args.data.profile
           ? {
-              connect: args.data.profile,
-            }
+            connect: args.data.profile,
+          }
           : undefined,
       },
     });
@@ -109,12 +109,12 @@ export class UserResolverBase {
 
           profile: args.data.profile
             ? {
-                connect: args.data.profile,
-              }
+              connect: args.data.profile,
+            }
             : undefined,
         },
       });
-    } catch (error) {
+    } catch (error: any) {
       if (isRecordNotFoundError(error)) {
         throw new apollo.ApolloError(
           `No resource was found for ${JSON.stringify(args.where)}`
@@ -133,7 +133,7 @@ export class UserResolverBase {
   async deleteUser(@graphql.Args() args: DeleteUserArgs): Promise<User | null> {
     try {
       return await this.service.delete(args);
-    } catch (error) {
+    } catch (error: any) {
       if (isRecordNotFoundError(error)) {
         throw new apollo.ApolloError(
           `No resource was found for ${JSON.stringify(args.where)}`
