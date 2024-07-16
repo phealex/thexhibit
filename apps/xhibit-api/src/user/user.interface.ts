@@ -8,7 +8,8 @@ export interface ICreateUser {
   userType: EnumUserUserType
   skills: string[];
   experience: number;
-  discipline: string;
-  employmentType: string;
+  discipline?: string;
+  employmentType?: string;
   phone: string;
+  roles: string[]
 }

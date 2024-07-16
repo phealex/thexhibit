@@ -4,6 +4,7 @@ import { PasswordService } from "../auth/password.service";
 import { UserServiceBase } from "./base/user.service.base";
 import { Prisma, User } from "@prisma/client";
 import { EnumUserUserType } from "./base/EnumUserUserType";
+import { ICreateUser } from "./user.interface";
 
 @Injectable()
 export class UserService extends UserServiceBase {
@@ -15,23 +16,42 @@ export class UserService extends UserServiceBase {
   }
 
 
-  async create<T extends Prisma.UserCreateArgs>(args: any): Promise<User> {
-    const user = await this.prisma.user.create<T>({
-      ...args,
-      data: {
-        ...args.data,
-        password: await this.passwordService.hash(args.data.password),
-      },
-    });
-    if (user.userType === EnumUserUserType.Talent) {
-      await this.prisma.talent.create({
+  async create(args: ICreateUser): Promise<User> {
+    try {
+      const user = await this.prisma.user.create({
         data: {
-          userId: user.id,
-          discipline: args.data
-        }
-      })
+          password: await this.passwordService.hash(args.password),
+          firstName: args.firstName,
+          lastName: args.lastName,
+          email: args.email,
+          userType: args.userType,
+          roles: args.roles,
+          phone: args.phone,
+        },
+      });
+      if (user.userType === EnumUserUserType.Talent) {
+        await this.prisma.talent.create({
+          data: {
+            userId: user.id,
+            discipline: args.discipline!,
+            skills: args.skills,
+            yearsOfExperience: args.experience,
+          }
+        })
+      } else if (user.userType === EnumUserUserType.Recruiter) {
+        await this.prisma.recruiter.create({
+          data: {
+            userId: user.id,
+            talentSkills: args.skills,
+            employmentType: args.employmentType!,
+            talentExperience: args.experience
+          }
+        })
+      }
+      return user
+    } catch (error) {
+      console.log(error)
+      throw new Error(error)
     }
-
-    return user
   }
 }

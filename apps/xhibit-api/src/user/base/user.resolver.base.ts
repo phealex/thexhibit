@@ -78,19 +78,19 @@ export class UserResolverBase {
     action: "create",
     possession: "any",
   })
-  async createUser(@graphql.Args() args: CreateUserArgs): Promise<User> {
-    return await this.service.create({
-      ...args,
-      data: {
-        ...args.data,
-
-        profile: args.data.profile
-          ? {
-            connect: args.data.profile,
-          }
-          : undefined,
-      },
-    });
+  async createUser(@graphql.Args() args: CreateUserArgs) {
+    // return await this.service.create({
+    //   ...args,
+    //   data: {
+    //     ...args.data,
+    //
+    //     profile: args.data.profile
+    //       ? {
+    //         connect: args.data.profile,
+    //       }
+    //       : undefined,
+    //   },
+    // });
   }
 
   @common.UseInterceptors(AclValidateRequestInterceptor)

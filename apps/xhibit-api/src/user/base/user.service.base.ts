@@ -30,10 +30,10 @@ export class UserServiceBase {
     const user = await this.prisma.user.findUnique(args);
     return user as User
   }
-  async create<T extends Prisma.UserCreateArgs>(
-    args: Prisma.SelectSubset<T, Prisma.UserCreateArgs>
+  async create(
+    args: any
   ): Promise<User> {
-    const user = await this.prisma.user.create<T>({
+    const user = await this.prisma.user.create({
       ...args,
 
       data: {
