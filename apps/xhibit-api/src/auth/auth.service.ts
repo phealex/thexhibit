@@ -57,8 +57,9 @@ export class AuthService {
     if (userExist !== null) {
       throw new BadRequestException("User already exists");
     }
-    return this.userService.create({
+    const user = await this.userService.create(
       { ...credentials, roles: ["user"] },
-    });
-}
+    );
+    return this.login({ email: user.email, password: credentials.password })
+  }
 }
