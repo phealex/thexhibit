@@ -15,8 +15,7 @@ model User {
   id            String           @id @default(auto()) @map("_id") @mongo.ObjectId
   lastName      String?
   password      String
-  profile       Profile?         @relation(fields: [profileId], references: [id])
-  profileId     String?
+  profile       Profile?
   project       Project[]        @relation(fields: [projectIds], references: [id])
   projectIds    String[]         @mongo.ObjectId
   roles         Json
@@ -24,6 +23,7 @@ model User {
   email         String           @unique
   userType      EnumUserUserType
   talent        Talent?
+  Recruiter     Recruiter?
 }
 
 model Category {
@@ -47,8 +47,9 @@ model Profile {
   profile_image_url                 String?
   updatedAt                         DateTime @updatedAt
   user_Address                      Json?
-  users                             User[]
   user_social_profiles              Json?
+  userId                            String   @unique @mongo.ObjectId
+  user                              User     @relation(fields: [userId], references: [id])
 }
 
 model Project {
@@ -74,6 +75,19 @@ model Talent {
   yearsOfExperience Int?
   skills            String[]
   discipline        String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Recruiter {
+  id               String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  userId           String   @unique @mongo.ObjectId
+  user             User     @relation(fields: [userId], references: [id])
+  employmentType   String
+  talentExperience Int?
+  talentSkills     String[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
 
 enum EnumUserUserType {
