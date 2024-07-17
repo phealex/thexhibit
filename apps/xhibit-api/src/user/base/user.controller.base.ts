@@ -1,4 +1,4 @@
- 
+
 import * as common from "@nestjs/common";
 import * as swagger from "@nestjs/swagger";
 import { isRecordNotFoundError } from "../../prisma.util";
@@ -30,7 +30,7 @@ export class UserControllerBase {
   constructor(
     protected readonly service: UserService,
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
-  ) {}
+  ) { }
   @common.UseInterceptors(AclValidateRequestInterceptor)
   @common.Post()
   @swagger.ApiCreatedResponse({ type: User })
@@ -45,36 +45,38 @@ export class UserControllerBase {
   @swagger.ApiBody({
     type: UserCreateInput,
   })
-  async create(@common.Body() data: UserCreateInput): Promise<User> {
-    return await this.service.create({
-      data: {
-        ...data,
-
-        profile: data.profile
-          ? {
-              connect: data.profile,
-            }
-          : undefined,
-      },
-      select: {
-        createdAt: true,
-        firstName: true,
-        id: true,
-        lastName: true,
-
-        profile: {
-          select: {
-            id: true,
-          },
-        },
-
-        roles: true,
-        updatedAt: true,
-        email: true,
-        userType: true,
-      },
-    });
+  async create(@common.Body() data: UserCreateInput) {
+    // return await this.service.create(
+    //{
+    //   data: {
+    //     ...data,
+    //
+    //     profile: data.profile
+    //       ? {
+    //           connect: data.profile,
+    //         }
+    //       : undefined,
+    //   },
+    //   select: {
+    //     createdAt: true,
+    //     firstName: true,
+    //     id: true,
+    //     lastName: true,
+    //
+    //     profile: {
+    //       select: {
+    //         id: true,
+    //       },
+    //     },
+    //
+    //     roles: true,
+    //     updatedAt: true,
+    //     email: true,
+    //     userType: true,
+    //   },
+    // });
   }
+
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
   @common.Get()
@@ -182,8 +184,8 @@ export class UserControllerBase {
 
           profile: data.profile
             ? {
-                connect: data.profile,
-              }
+              connect: data.profile,
+            }
             : undefined,
         },
         select: {

@@ -1,4 +1,4 @@
- 
+
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString, IsOptional, ValidateNested } from "class-validator";
@@ -75,6 +75,16 @@ class ProfileCreateInput {
 
   @ApiProperty({
     required: false,
+  })
+  @IsJSONValue()
+  @IsOptional()
+  @Field(() => GraphQLJSON, {
+    nullable: true,
+  })
+  user_social_profiles?: InputJsonValue;
+
+  @ApiProperty({
+    required: false,
     type: () => UserCreateNestedManyWithoutProfilesInput,
   })
   @ValidateNested()
@@ -83,17 +93,8 @@ class ProfileCreateInput {
   @Field(() => UserCreateNestedManyWithoutProfilesInput, {
     nullable: true,
   })
-  users?: UserCreateNestedManyWithoutProfilesInput;
+  user!: UserCreateNestedManyWithoutProfilesInput;
 
-  @ApiProperty({
-    required: false,
-  })
-  @IsJSONValue()
-  @IsOptional()
-  @Field(() => GraphQLJSON, {
-    nullable: true,
-  })
-  user_social_profiles?: InputJsonValue;
 }
 
 export { ProfileCreateInput as ProfileCreateInput };

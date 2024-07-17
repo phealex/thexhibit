@@ -13,7 +13,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly passwordService: PasswordService,
     private readonly tokenService: TokenService
-  ) {}
+  ) { }
 
   async validateUser(
     email: string,
@@ -50,15 +50,16 @@ export class AuthService {
     };
   }
 
-  async register(credentials: Register): Promise<UserInfo> { 
+  async register(credentials: Register): Promise<UserInfo> {
     const userExist = await this.userService.findOne({
       where: { email: credentials.email },
     });
     if (userExist !== null) {
       throw new BadRequestException("User already exists");
     }
-    return this.userService.create({
-      data: { ...credentials, roles: ["user"] },
-    });
+    const user = await this.userService.create(
+      { ...credentials, roles: ["user"] },
+    );
+    return this.login({ email: user.email, password: credentials.password })
   }
 }

@@ -1,25 +1,28 @@
- 
+
 import { PrismaService } from "../../prisma/prisma.service";
 import { Prisma, Profile, User } from "@prisma/client";
 
 export class ProfileServiceBase {
-  constructor(protected readonly prisma: PrismaService) {}
+  constructor(protected readonly prisma: PrismaService) { }
 
   async count<T extends Prisma.ProfileCountArgs>(
     args: Prisma.SelectSubset<T, Prisma.ProfileCountArgs>
   ): Promise<number> {
-    return this.prisma.profile.count(args);
+    const count = await this.prisma.profile.count(args);
+    return count as number
   }
 
   async findMany<T extends Prisma.ProfileFindManyArgs>(
     args: Prisma.SelectSubset<T, Prisma.ProfileFindManyArgs>
   ): Promise<Profile[]> {
-    return this.prisma.profile.findMany(args);
+    const profile = await this.prisma.profile.findMany(args);
+    return profile as Profile[]
   }
   async findOne<T extends Prisma.ProfileFindUniqueArgs>(
     args: Prisma.SelectSubset<T, Prisma.ProfileFindUniqueArgs>
   ): Promise<Profile | null> {
-    return this.prisma.profile.findUnique(args);
+    const profile = await this.prisma.profile.findUnique<T>(args);
+    return profile as Profile
   }
   async create<T extends Prisma.ProfileCreateArgs>(
     args: Prisma.SelectSubset<T, Prisma.ProfileCreateArgs>
@@ -39,12 +42,11 @@ export class ProfileServiceBase {
 
   async findUsers(
     parentId: string,
-    args: Prisma.UserFindManyArgs
-  ): Promise<User[]> {
+  ): Promise<User> {
     return this.prisma.profile
       .findUniqueOrThrow({
         where: { id: parentId },
       })
-      .users(args);
+      .user();
   }
 }
