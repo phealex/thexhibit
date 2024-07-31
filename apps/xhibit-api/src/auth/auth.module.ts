@@ -2,6 +2,7 @@ import { forwardRef, Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
+import { EmailModule } from "src/email/email.module";
 import { JWT_EXPIRATION, JWT_SECRET_KEY } from "../constants";
 import { SecretsManagerModule } from "../providers/secrets/secretsManager.module";
 import { SecretsManagerService } from "../providers/secrets/secretsManager.service";
@@ -42,6 +43,7 @@ import { TokenService } from "./token.service";
         };
       },
     }),
+    EmailModule
   ],
   providers: [
     AuthService,
@@ -54,4 +56,4 @@ import { TokenService } from "./token.service";
   controllers: [AuthController],
   exports: [AuthService, PasswordService],
 })
-export class AuthModule {}
+export class AuthModule { }
