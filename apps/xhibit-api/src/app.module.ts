@@ -15,6 +15,7 @@ import { GraphQLModule } from "@nestjs/graphql";
 
 import { ACLModule } from "./auth/acl.module";
 import { AuthModule } from "./auth/auth.module";
+import { CacheModule } from "@nestjs/cache-manager";
 
 @Module({
   controllers: [],
@@ -47,6 +48,9 @@ import { AuthModule } from "./auth/auth.module";
       inject: [ConfigService],
       imports: [ConfigModule],
     }),
+    CacheModule.register({
+      isGlobal: true
+    })
   ],
   providers: [
     {
