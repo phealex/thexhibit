@@ -1,4 +1,4 @@
- 
+
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import {
@@ -124,6 +124,7 @@ class Project {
   @Type(() => User)
   @IsOptional()
   users?: Array<User>;
+
 }
 
 export { Project as Project };

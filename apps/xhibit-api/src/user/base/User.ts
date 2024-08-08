@@ -117,6 +117,18 @@ class User {
     nullable: true,
   })
   userType?: "Recruiter" | "Talent";
+
+  @ApiProperty({ required: false })
+  @IsDate()
+  @Type(() => Date)
+  @Field(() => Date, { nullable: true })
+  emailVerifiedAt?: Date | null;
+
+  @ApiProperty({ required: false })
+  @IsDate()
+  @Type(() => Date)
+  @Field(() => Date, { nullable: true })
+  phoneVerifiedAt?: Date | null;
 }
 
 export { User as User };

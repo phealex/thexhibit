@@ -1,9 +1,9 @@
- 
+
 import { PrismaService } from "../../prisma/prisma.service";
 import { Prisma, Project, User } from "@prisma/client";
 
 export class ProjectServiceBase {
-  constructor(protected readonly prisma: PrismaService) {}
+  constructor(protected readonly prisma: PrismaService) { }
 
   async count<T extends Prisma.ProjectCountArgs>(
     args: Prisma.SelectSubset<T, Prisma.ProjectCountArgs>

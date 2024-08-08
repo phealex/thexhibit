@@ -1,4 +1,6 @@
-import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
+// import { CACHE_MANAGER } from '@nestjs/cache-manager';
+// import { Cache } from 'cache-manager';
 // @ts-ignore
 // eslint-disable-next-line
 import { UserService } from "../user/user.service";
@@ -12,7 +14,8 @@ export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly passwordService: PasswordService,
-    private readonly tokenService: TokenService
+    private readonly tokenService: TokenService,
+    // @Inject(CACHE_MANAGER) private cacheService: Cache
   ) { }
 
   async validateUser(

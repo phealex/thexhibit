@@ -1,4 +1,4 @@
- 
+
 import * as graphql from "@nestjs/graphql";
 import * as apollo from "apollo-server-express";
 import { isRecordNotFoundError } from "../../prisma.util";
@@ -25,7 +25,7 @@ export class ProjectResolverBase {
   constructor(
     protected readonly service: ProjectService,
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
-  ) {}
+  ) { }
 
   @graphql.Query(() => MetaQueryPayload)
   @nestAccessControl.UseRoles({

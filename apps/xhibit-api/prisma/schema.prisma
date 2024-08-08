@@ -16,8 +16,7 @@ model User {
   lastName        String?
   password        String
   profile         Profile?
-  project         Project[]        @relation(fields: [projectIds], references: [id])
-  projectIds      String[]         @mongo.ObjectId
+  project         Project[]
   roles           Json
   updatedAt       DateTime         @updatedAt
   email           String           @unique
@@ -67,8 +66,8 @@ model Project {
   price             Float?
   slug              String
   updatedAt         DateTime @updatedAt
-  users             User[]   @relation(fields: [usersIds], references: [id])
-  usersIds          String[] @mongo.ObjectId
+  User              User?    @relation(fields: [userId], references: [id])
+  userId            String?  @mongo.ObjectId
 }
 
 model Talent {
