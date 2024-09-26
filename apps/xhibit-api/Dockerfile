@@ -57,7 +57,7 @@ COPY --from=base /app/tsconfig* ./
 RUN chown -R ${uid}:${gid} /app/
 
 # get rid of the development dependencies
-RUN npm install --production
+# RUN npm install --production
 
 # set user to the created non-privileged user
 USER ${user}
