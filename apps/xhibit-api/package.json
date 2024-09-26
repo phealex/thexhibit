@@ -17,7 +17,7 @@
     "package:container": "docker build .",
     "compose:up": "docker-compose up -d",
     "compose:down": "docker-compose down --volumes",
-    "postinstall": "npx prisma generate && npm run build",
+    "postinstall": "npx prisma generate",
     "prisma:pull": "prisma db pull",
     "prisma:push": " prisma db push"
   },

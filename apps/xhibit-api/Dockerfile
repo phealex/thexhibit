@@ -6,13 +6,15 @@ WORKDIR /app
 
 # copy over the dependency manifests, both the package.json 
 # and the package-lock.json are copied over
-COPY package*.json ./
+COPY /package*.json ./
+
+
+# copy over the prisma schema
+COPY /prisma/schema.prisma ./prisma/
 
 # installs packages and their dependencies
 RUN npm install
 
-# copy over the prisma schema
-COPY prisma/schema.prisma ./prisma/
 
 # generate the prisma client based on the schema
 RUN npm run prisma:generate
