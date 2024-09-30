@@ -8,23 +8,25 @@ generator client {
 }
 
 model User {
-  categories    Category[]       @relation(fields: [categoriesIds], references: [id])
-  categoriesIds String[]         @mongo.ObjectId
-  createdAt     DateTime         @default(now())
-  firstName     String?
-  id            String           @id @default(auto()) @map("_id") @mongo.ObjectId
-  lastName      String?
-  password      String
-  profile       Profile?
-  project       Project[]        @relation(fields: [projectIds], references: [id])
-  projectIds    String[]         @mongo.ObjectId
-  roles         Json
-  updatedAt     DateTime         @updatedAt
-  email         String           @unique
-  userType      EnumUserUserType
-  talent        Talent?
-  Recruiter     Recruiter?
-  phone         String?
+  categories      Category[]       @relation(fields: [categoriesIds], references: [id])
+  categoriesIds   String[]         @mongo.ObjectId
+  createdAt       DateTime         @default(now())
+  firstName       String?
+  id              String           @id @default(auto()) @map("_id") @mongo.ObjectId
+  lastName        String?
+  password        String
+  profile         Profile?
+  project         Project[]        @relation(fields: [projectIds], references: [id])
+  projectIds      String[]         @mongo.ObjectId
+  roles           Json
+  updatedAt       DateTime         @updatedAt
+  email           String           @unique
+  userType        EnumUserUserType
+  talent          Talent?
+  Recruiter       Recruiter?
+  phone           String?
+  emailVerifiedAt DateTime?
+  phoneVerifiedAt DateTime?
 }
 
 model Category {
