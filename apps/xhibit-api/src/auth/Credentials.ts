@@ -65,19 +65,19 @@ export class Register {
   userType!: EnumUserUserType;
 
   @ApiProperty({
-    required: true,
+    required: false,
     type: String,
   })
   @IsString()
-  @Field(() => [String], { nullable: false })
+  @Field(() => [String], { nullable: true })
   skills!: string[];
 
   @ApiProperty({
-    required: true,
+    required: false,
     type: String,
   })
   @IsInt()
-  @Field(() => Int, { nullable: false })
+  @Field(() => Int, { nullable: true })
   experience!: number;
 
   @ApiProperty({
