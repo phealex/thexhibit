@@ -6,6 +6,9 @@ import * as common from "@nestjs/common";
 import { UserResolverBase } from "./base/user.resolver.base";
 import { User } from "./base/User";
 import { UserService } from "./user.service";
+import { Int, Mutation } from "@nestjs/graphql";
+import { UserData } from "src/auth/userData.decorator";
+import { UserInfo } from "src/auth/UserInfo";
 
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => User)
@@ -16,5 +19,15 @@ export class UserResolver extends UserResolverBase {
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {
     super(service, rolesBuilder);
+  }
+
+  @Mutation(() => Int)
+  async triggerEmailVerification(@UserData() userInfo: UserInfo) {
+    return this.service.triggerEmailVerificationCode(userInfo.id)
+  }
+
+  @Mutation(() => Int)
+  async triggerPhoneVerification(@UserData() userInfo: UserInfo) {
+    return this.service.triggerPhoneVerificationCode(userInfo.id)
   }
 }

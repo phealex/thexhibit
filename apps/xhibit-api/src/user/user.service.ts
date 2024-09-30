@@ -1,16 +1,21 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { PasswordService } from "../auth/password.service";
 import { UserServiceBase } from "./base/user.service.base";
 import { Prisma, User } from "@prisma/client";
 import { EnumUserUserType } from "./base/EnumUserUserType";
 import { ICreateUser } from "./user.interface";
+import { CACHE_MANAGER } from "@nestjs/cache-manager";
+import { Cache } from 'cache-manager';
+import * as otpGenerator from 'otp-generator';
+
 
 @Injectable()
 export class UserService extends UserServiceBase {
   constructor(
     protected readonly prisma: PrismaService,
-    protected readonly passwordService: PasswordService
+    protected readonly passwordService: PasswordService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {
     super(prisma, passwordService);
   }
@@ -53,5 +58,47 @@ export class UserService extends UserServiceBase {
       console.log(error)
       throw new Error(error)
     }
+  }
+
+
+  async triggerPhoneVerificationCode(userId: string) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        id: userId
+      }
+    })
+    if (user && !user.phoneVerifiedAt) {
+      const otp = otpGenerator.generate(4, {
+        digits: true,
+        upperCaseAlphabets: false,
+        lowerCaseAlphabets: false,
+        specialChars: false
+      });
+      this.cacheManager.set(`${userId}:phone:verification`, otp)
+      //send otp to user
+      return otp;
+    }
+    throw new BadRequestException('User has been verified')
+
+  }
+
+  async triggerEmailVerificationCode(userId: string) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        id: userId
+      }
+    })
+    if (user && !user.emailVerifiedAt) {
+      const otp = otpGenerator.generate(4, {
+        digits: true,
+        upperCaseAlphabets: false,
+        lowerCaseAlphabets: false,
+        specialChars: false
+      });
+      this.cacheManager.set(`${userId}:email:verification`, otp)
+      //send otp to user
+      return otp;
+    }
+    throw new BadRequestException('User has been verified')
   }
 }
