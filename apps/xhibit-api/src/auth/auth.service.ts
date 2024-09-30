@@ -6,6 +6,7 @@ import { Credentials, Register } from "./Credentials";
 import { PasswordService } from "./password.service";
 import { TokenService } from "./token.service";
 import { UserInfo } from "./UserInfo";
+import { EnumUserUserType } from "src/user/base/EnumUserUserType";
 
 @Injectable()
 export class AuthService {
@@ -25,7 +26,7 @@ export class AuthService {
     if (user && (await this.passwordService.compare(password, user.password))) {
       const { id, roles } = user;
       const roleList = roles as string[];
-      return { id, email, roles: roleList };
+      return { id, email, roles: roleList, type: user.userType as EnumUserUserType };
     }
     return null;
   }

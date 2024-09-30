@@ -382,6 +382,7 @@ type UserInfo {
   email: String!
   id: String!
   roles: JSON!
+  type: EnumUserUserType
 }
 
 input UserListRelationFilter {
