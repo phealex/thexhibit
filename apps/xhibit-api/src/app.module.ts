@@ -15,6 +15,10 @@ import { GraphQLModule } from "@nestjs/graphql";
 
 import { ACLModule } from "./auth/acl.module";
 import { AuthModule } from "./auth/auth.module";
+import { CacheModule } from "@nestjs/cache-manager";
+import { ApolloDriver } from "@nestjs/apollo";
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+
 
 @Module({
   controllers: [],
@@ -34,25 +38,28 @@ import { AuthModule } from "./auth/auth.module";
       useClass: ServeStaticOptionsService,
     }),
     GraphQLModule.forRootAsync({
+      driver: ApolloDriver,
       useFactory: (configService) => {
         const playground = configService.get("GRAPHQL_PLAYGROUND");
         const introspection = configService.get("GRAPHQL_INTROSPECTION");
         return {
+          plugins: [ApolloServerPluginLandingPageLocalDefault()],
           autoSchemaFile: "schema.graphql",
           sortSchema: true,
-          playground,
+          playground: false,
           introspection: playground || introspection,
         };
       },
       inject: [ConfigService],
       imports: [ConfigModule],
     }),
+    CacheModule.register({ isGlobal: true, })
   ],
   providers: [
     {
       provide: APP_INTERCEPTOR,
       scope: Scope.REQUEST,
-      useClass: MorganInterceptor("combined"),
+      useValue: MorganInterceptor("combined"),
     },
   ],
 })

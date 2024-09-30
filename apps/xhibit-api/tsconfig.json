@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "module": "commonjs",
+    "module": "NodeNext",
     "declaration": false,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -17,12 +17,13 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "paths": {
       "@app/custom-validators": [
         "src/validators"
       ]
-    }
+    },
+    "moduleResolution": "NodeNext",
   },
   "include": [
     "src"

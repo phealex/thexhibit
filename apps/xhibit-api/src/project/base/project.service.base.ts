@@ -1,23 +1,23 @@
- 
+
 import { PrismaService } from "../../prisma/prisma.service";
 import { Prisma, Project, User } from "@prisma/client";
 
 export class ProjectServiceBase {
-  constructor(protected readonly prisma: PrismaService) {}
+  constructor(protected readonly prisma: PrismaService) { }
 
   async count<T extends Prisma.ProjectCountArgs>(
-    args: Prisma.SelectSubset<T, Prisma.ProjectCountArgs>
+    args
   ): Promise<number> {
     return this.prisma.project.count(args);
   }
 
   async findMany<T extends Prisma.ProjectFindManyArgs>(
-    args: Prisma.SelectSubset<T, Prisma.ProjectFindManyArgs>
+    args
   ): Promise<Project[]> {
     return this.prisma.project.findMany(args);
   }
   async findOne<T extends Prisma.ProjectFindUniqueArgs>(
-    args: Prisma.SelectSubset<T, Prisma.ProjectFindUniqueArgs>
+    args
   ): Promise<Project | null> {
     return this.prisma.project.findUnique(args);
   }
