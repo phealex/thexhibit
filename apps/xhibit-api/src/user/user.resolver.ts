@@ -21,13 +21,23 @@ export class UserResolver extends UserResolverBase {
     super(service, rolesBuilder);
   }
 
-  @Mutation(() => Int)
+  @Mutation(() => String)
   async triggerEmailVerification(@UserData() userInfo: UserInfo) {
     return this.service.triggerEmailVerificationCode(userInfo.id)
   }
 
-  @Mutation(() => Int)
+  @Mutation(() => String)
   async triggerPhoneVerification(@UserData() userInfo: UserInfo) {
     return this.service.triggerPhoneVerificationCode(userInfo.id)
+  }
+
+  @Mutation(() => Boolean)
+  async verifyEmail(@graphql.Args('otp') otp: string, @UserData() userInfo: UserInfo) {
+    return this.service.verifyEmail(userInfo.id, otp)
+  }
+
+  @Mutation(() => Boolean)
+  async verifyPhone(@graphql.Args('otp') otp: string, @UserData() userInfo: UserInfo) {
+    return this.service.verifyPhone(userInfo.id, otp)
   }
 }

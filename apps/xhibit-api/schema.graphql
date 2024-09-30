@@ -123,12 +123,14 @@ type Mutation {
   deleteUser(where: UserWhereUniqueInput!): User!
   login(credentials: Credentials!): UserInfo!
   register(credentials: Register!): UserInfo!
-  triggerEmailVerification: Int!
-  triggerPhoneVerification: Int!
+  triggerEmailVerification: String!
+  triggerPhoneVerification: String!
   updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category!
   updateProfile(data: ProfileUpdateInput!, where: ProfileWhereUniqueInput!): Profile!
   updateProject(data: ProjectUpdateInput!, where: ProjectWhereUniqueInput!): Project!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+  verifyEmail(otp: String!): Boolean!
+  verifyPhone(otp: String!): Boolean!
 }
 
 type Profile {

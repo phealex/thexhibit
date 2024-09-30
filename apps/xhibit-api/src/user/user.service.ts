@@ -101,4 +101,29 @@ export class UserService extends UserServiceBase {
     }
     throw new BadRequestException('User has been verified')
   }
+
+
+  async verifyPhone(userId: string, otp: string) {
+    const foundOtp = await this.cacheManager.get(`${userId}:phone:verification`)
+    if (!foundOtp || foundOtp !== otp) throw new BadRequestException('Invalid OTP')
+    await this.prisma.user.update({
+      where: {
+        id: userId
+      },
+      data: { phoneVerifiedAt: new Date() }
+    })
+    return true
+  }
+
+  async verifyEmail(userId: string, otp: string) {
+    const foundOtp = await this.cacheManager.get(`${userId}:email:verification`)
+    if (!foundOtp || foundOtp !== otp) throw new BadRequestException('Invalid OTP')
+    await this.prisma.user.update({
+      where: {
+        id: userId
+      },
+      data: { emailVerifiedAt: new Date() }
+    })
+    return true
+  }
 }
