@@ -77,8 +77,8 @@ export class Register {
     type: String,
   })
   @IsInt()
-  @Field(() => Int, { nullable: true })
-  experience!: number;
+  @Field(() => String, { nullable: true })
+  experience!: string;
 
   @ApiProperty({
     required: false,

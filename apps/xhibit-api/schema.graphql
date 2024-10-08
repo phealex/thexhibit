@@ -298,7 +298,7 @@ input Register {
   discipline: String
   email: String!
   employmentType: String
-  experience: Int
+  experience: String
   firstName: String!
   lastName: String!
   password: String!

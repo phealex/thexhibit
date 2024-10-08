@@ -7,7 +7,7 @@ export interface ICreateUser {
   password: string;
   userType: EnumUserUserType
   skills: string[];
-  experience: number;
+  experience: string;
   discipline?: string;
   employmentType?: string;
   phone: string;
