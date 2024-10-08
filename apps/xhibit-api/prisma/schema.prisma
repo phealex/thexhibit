@@ -75,7 +75,7 @@ model Talent {
   id                String   @id @default(auto()) @map("_id") @mongo.ObjectId
   userId            String   @unique @mongo.ObjectId
   user              User     @relation(fields: [userId], references: [id])
-  yearsOfExperience Int?
+  yearsOfExperience String?
   skills            String[]
   discipline        String?
   createdAt         DateTime @default(now())
@@ -87,7 +87,7 @@ model Recruiter {
   userId           String   @unique @mongo.ObjectId
   user             User     @relation(fields: [userId], references: [id])
   employmentType   String
-  talentExperience Int?
+  talentExperience String?
   talentSkills     String[]
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
