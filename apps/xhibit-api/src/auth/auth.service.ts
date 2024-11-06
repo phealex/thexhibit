@@ -26,7 +26,7 @@ export class AuthService {
     if (user && (await this.passwordService.compare(password, user.password))) {
       const { id, roles } = user;
       const roleList = roles as string[];
-      return { id, email, roles: roleList, type: user.userType as EnumUserUserType };
+      return { id, email, roles: roleList, type: user.userType as EnumUserUserType, emailVerifiedAt: user?.emailVerifiedAt, phoneVerifiedAt: user?.phoneVerifiedAt };
     }
     return null;
   }

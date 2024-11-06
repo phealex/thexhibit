@@ -16,4 +16,8 @@ export class UserInfo implements Partial<User> {
   accessToken?: string;
   @Field(() => EnumUserUserType, { nullable: true })
   type?: EnumUserUserType
+  @Field(() => Date, { nullable: true })
+  emailVerifiedAt?: Date;
+  @Field(() => Date, { nullable: true })
+  phoneVerifiedAt?: Date;
 }
