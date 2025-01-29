@@ -74,7 +74,7 @@ export class UserService extends UserServiceBase {
         lowerCaseAlphabets: false,
         specialChars: false
       });
-      this.cacheManager.set(`${userId}:phone:verification`, otp)
+      this.cacheManager.set(`${userId}:phone:verification`, otp, 3 * 60 * 1000)
       //send otp to user
       return otp;
     }
@@ -95,7 +95,7 @@ export class UserService extends UserServiceBase {
         lowerCaseAlphabets: false,
         specialChars: false
       });
-      this.cacheManager.set(`${userId}:email:verification`, otp)
+      await this.cacheManager.set(`${userId}:email:verification`, otp, 5 * 60 * 1000)
       //send otp to user
       return otp;
     }
@@ -117,6 +117,7 @@ export class UserService extends UserServiceBase {
 
   async verifyEmail(userId: string, otp: string) {
     const foundOtp = await this.cacheManager.get(`${userId}:email:verification`)
+    console.log({ foundOtp, otp })
     if (!foundOtp || foundOtp !== otp) throw new BadRequestException('Invalid OTP')
     await this.prisma.user.update({
       where: {

@@ -346,9 +346,11 @@ type User {
   categories(orderBy: [CategoryOrderByInput!], skip: Float, take: Float, where: CategoryWhereInput): [Category!]!
   createdAt: DateTime!
   email: String!
+  emailVerifiedAt: DateTime
   firstName: String
   id: String!
   lastName: String
+  phoneVerifiedAt: DateTime
   profile: Profile
   project(orderBy: [ProjectOrderByInput!], skip: Float, take: Float, where: ProjectWhereInput): [Project!]!
   roles: JSON!
@@ -380,7 +382,9 @@ input UserCreateNestedManyWithoutProjectsInput {
 type UserInfo {
   accessToken: String
   email: String!
+  emailVerifiedAt: DateTime
   id: String!
+  phoneVerifiedAt: DateTime
   roles: JSON!
   type: EnumUserUserType
 }

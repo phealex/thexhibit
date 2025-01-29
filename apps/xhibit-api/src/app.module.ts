@@ -53,7 +53,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
       inject: [ConfigService],
       imports: [ConfigModule],
     }),
-    CacheModule.register({ isGlobal: true, })
+    CacheModule.register({ isGlobal: true, ttl: 60 * 1000 })
   ],
   providers: [
     {
